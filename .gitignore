@@ -1,0 +1,9 @@
+/node_modules
+.idea
+.vscode
+*.log
+/dist
+/kmap/fonts
+/build/python_pub.js
+/temp
+/tests
