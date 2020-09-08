@@ -47,11 +47,14 @@ const getCssLoaders = (importLoaders) => [
 
 module.exports = {
     entry: {
-        app: path.resolve(PROJECT_PATH, './src/app.js'),
+        app: path.resolve(PROJECT_PATH, './src/index.tsx'),
     },
     output: {
         filename: `js/[name]${isDev ? '' : '.[hash:8]'}.js`,
         path: path.resolve(PROJECT_PATH, './dist'),
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js', '.json'],
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -130,6 +133,12 @@ module.exports = {
                         },
                     },
                 ],
+            },
+            {
+                test: /\.(tsx?|js)$/,
+                loader: 'babel-loader',
+                options: { cacheDirectory: true },
+                exclude: /node_modules/,
             },
         ],
     },

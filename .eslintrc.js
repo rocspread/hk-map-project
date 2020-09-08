@@ -48,6 +48,7 @@ module.exports = {
             },
         ],
         'import/no-extraneous-dependencies': [ERROR, { devDependencies: true }],
+        'react/jsx-filename-extension': [ERROR, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
         indent: 0,
     },
 };
