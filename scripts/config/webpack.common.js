@@ -1,23 +1,20 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const index = require('postcss-normalize');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const postcss = require('postcss-preset-env');
+/* eslint-disable @typescript-eslint/no-var-requires */
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
+const index = require('postcss-normalize');
+const postcss = require('postcss-preset-env');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const CopyPlugin = require('copy-webpack-plugin');
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const WebpackBar = require('webpackbar');
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+
 const { PROJECT_PATH, isDev } = require('../constants');
 
 const getCssLoaders = (importLoaders) => [
@@ -53,10 +50,10 @@ const getCssLoaders = (importLoaders) => [
 
 module.exports = {
     entry: {
-        app: path.resolve(PROJECT_PATH, './src/index.tsx'),
+        mymap: path.resolve(PROJECT_PATH, './src/index.tsx'),
     },
     output: {
-        filename: `js/[name]${isDev ? '' : '.[hash:8]'}.js`,
+        filename: `js/test-[name]${isDev ? '' : '.[hash:8]'}.js`,
         path: path.resolve(PROJECT_PATH, './dist'),
     },
     resolve: {
@@ -103,7 +100,19 @@ module.exports = {
             name: isDev ? '正在启动' : '正在打包',
             color: '#7CFC00',
         }),
+        new ForkTsCheckerWebpackPlugin({
+            typescript: {
+                configFile: path.resolve(PROJECT_PATH, './tsconfig.json'),
+            },
+        }),
+        new HardSourceWebpackPlugin(),
     ],
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            name: true,
+        },
+    },
     module: {
         rules: [
             {

@@ -1,9 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { merge } = require('webpack-merge');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+const webpack = require('webpack');
 const { SERVER_HOST, SERVER_PORT } = require('../constants');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const common = require('./webpack.common.js');
+
+const proxySetting = require('../../src/set-proxy');
 
 module.exports = merge(common, {
     mode: 'development',
@@ -17,4 +18,6 @@ module.exports = merge(common, {
         open: true, // 打开默认浏览器
         hot: true, // 热更新
     },
+    proxy: { ...proxySetting },
+    plugins: [new webpack.HotModuleReplacementPlugin()],
 });
