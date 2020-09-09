@@ -52,5 +52,6 @@ module.exports = {
         'react/jsx-filename-extension': [ERROR, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
         indent: 0,
         'typescript/no-var-requires': 'off',
+        '@typescript-eslint/no-explicit-any': 2,
     },
 };

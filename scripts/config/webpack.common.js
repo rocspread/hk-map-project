@@ -1,24 +1,20 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const index = require('postcss-normalize');
 const postcss = require('postcss-preset-env');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const CopyPlugin = require('copy-webpack-plugin');
-
 const WebpackBar = require('webpackbar');
-
 const path = require('path');
-
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { PROJECT_PATH, isDev } = require('../constants');
 
 const getCssLoaders = (importLoaders) => [
-    'style-loader',
+    isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
     {
         loader: 'css-loader',
         options: {
@@ -106,8 +102,27 @@ module.exports = {
             },
         }),
         new HardSourceWebpackPlugin(),
+        !isDev &&
+            new MiniCssExtractPlugin({
+                filename: 'css/test-map-[name].[contenthash:8].css',
+                chunkFilename: 'css/test-map-[name].[contenthash:8].css',
+                ignoreOrder: false,
+            }),
     ],
     optimization: {
+        minimize: !isDev,
+        minimizer: [
+            !isDev &&
+                new TerserPlugin(
+                    {
+                        extractComments: false,
+                        terserOptions: {
+                            compress: { pure_funcs: ['console.log'] },
+                        },
+                    },
+                    !isDev && new OptimizeCssAssetsPlugin(),
+                ),
+        ].filter(Boolean),
         splitChunks: {
             chunks: 'all',
             name: true,
