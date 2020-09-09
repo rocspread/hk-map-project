@@ -4,11 +4,7 @@ const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const index = require('postcss-normalize');
 const postcss = require('postcss-preset-env');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const WebpackBar = require('webpackbar');
 const path = require('path');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { PROJECT_PATH, isDev } = require('../constants');
@@ -82,33 +78,13 @@ module.exports = {
                       useShortDoctype: true,
                   },
         }),
-        new CopyPlugin({
-            patterns: [
-                {
-                    context: path.resolve(PROJECT_PATH, './public'),
-                    from: '*',
-                    to: path.resolve(PROJECT_PATH, './dist'),
-                    toType: 'dir',
-                },
-            ],
-        }),
-        new WebpackBar({
-            name: isDev ? '正在启动' : '正在打包',
-            color: '#7CFC00',
-        }),
-        new ForkTsCheckerWebpackPlugin({
-            typescript: {
-                configFile: path.resolve(PROJECT_PATH, './tsconfig.json'),
-            },
-        }),
-        new HardSourceWebpackPlugin(),
         !isDev &&
             new MiniCssExtractPlugin({
-                filename: 'css/test-map-[name].[contenthash:8].css',
-                chunkFilename: 'css/test-map-[name].[contenthash:8].css',
+                filename: 'css/[name].[contenthash:8].css',
+                chunkFilename: 'css/[name].[contenthash:8].css',
                 ignoreOrder: false,
             }),
-    ],
+    ].filter(Boolean),
     optimization: {
         minimize: !isDev,
         minimizer: [

@@ -4,8 +4,6 @@ const webpack = require('webpack');
 const { SERVER_HOST, SERVER_PORT } = require('../constants');
 const common = require('./webpack.common.js');
 
-const proxySetting = require('../../src/set-proxy');
-
 module.exports = merge(common, {
     mode: 'development',
     devtool: 'eval-source-map',
@@ -18,6 +16,5 @@ module.exports = merge(common, {
         open: true, // 打开默认浏览器
         hot: true, // 热更新
     },
-    proxy: { ...proxySetting },
     plugins: [new webpack.HotModuleReplacementPlugin()],
 });
