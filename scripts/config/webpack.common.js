@@ -9,6 +9,12 @@ const postcss = require('postcss-preset-env');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const CopyPlugin = require('copy-webpack-plugin');
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const WebpackBar = require('webpackbar');
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -82,6 +88,20 @@ module.exports = {
                       minifyURLs: true,
                       useShortDoctype: true,
                   },
+        }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    context: path.resolve(PROJECT_PATH, './public'),
+                    from: '*',
+                    to: path.resolve(PROJECT_PATH, './dist'),
+                    toType: 'dir',
+                },
+            ],
+        }),
+        new WebpackBar({
+            name: isDev ? '正在启动' : '正在打包',
+            color: '#7CFC00',
         }),
     ],
     module: {
