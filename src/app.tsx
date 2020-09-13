@@ -10,7 +10,7 @@ interface IProps {
 const Header = React.lazy(() => import('Components/Header/index'));
 const Body = React.lazy(() => import('Components/Header/body'));
 
-export default function App(properties: IProps): JSX.Element {
+const App = (properties: IProps): JSX.Element => {
     const { name, age } = properties;
     const [showTwo, setShowTwo] = useState<boolean>(false);
     return (
@@ -31,4 +31,6 @@ export default function App(properties: IProps): JSX.Element {
             </Suspense>
         </div>
     );
-}
+};
+
+export default App;
