@@ -6,4 +6,4 @@ import App from './app';
 if (module && module.hot) {
     module.hot.accept();
 }
-ReactDOM.render(<App name="rocspread" age={25} />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector('#root'));

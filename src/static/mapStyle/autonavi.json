@@ -1,0 +1,20 @@
+{
+    "version": 8,
+    "name": "autonavi",
+    "sprite": "http://10.68.8.247:8088/kmapdemo/sprite/sprite",
+    "glyphs": "http://10.68.8.247:8088/kmapdemo/fonts/{fontstack}/{range}.pbf",
+    "sources": {
+        "autonaviSource": {
+            "type": "raster",
+            "tiles": ["https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}"],
+            "tileSize": 256
+        }
+    },
+    "layers": [
+        {
+            "id": "autonavi-layer",
+            "type": "raster",
+            "source": "autonaviSource"
+        }
+    ]
+}
