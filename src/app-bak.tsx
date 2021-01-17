@@ -1,7 +1,7 @@
 import React, { Suspense, useState } from 'react';
 import './app.css';
 import { add } from 'Utils/math';
-import TestModule from 'Src/components/Test/pageone';
+import TestModule from 'Src/components/Map/pageone';
 
 interface IProps {
     name: string;

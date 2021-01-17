@@ -1,12 +1,12 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense } from 'react';
 import './app.css';
-import HeatMap from 'src/components/Test/heatMap';
+const HeatMap = React.lazy(() => import('Src/components/Map/heatMap'));
 
 const App = (): JSX.Element => {
     return (
         <div className="app">
             <Suspense fallback={<div> Loading...</div>}>
-                <HeatMap></HeatMap>
+                <HeatMap />
             </Suspense>
         </div>
     );

@@ -1,7 +1,7 @@
 import { ILngLat, IPoint, ISource, ILngLatBounds } from 'Src/types/mapCore';
 import mapboxgl, { Layer, Map } from 'mapbox-gl';
 import * as _ from 'lodash';
-import { accessToken, defalutStyle } from '../js/mapConfig';
+import { accessToken, mapOptions } from '../js/mapConfig';
 
 interface ILayer {
     id: string;
@@ -24,7 +24,7 @@ interface ISourceList {
 /**
  * TODO 地图挂载事件待封装
  */
-export class map {
+class MapGL {
     /**
      * `地图挂载对象`
      */
@@ -39,24 +39,26 @@ export class map {
      */
     _layers: ILayerList;
 
-    constructor(config = defalutStyle) {
+    constructor(props) {
         mapboxgl.accessToken = accessToken;
         this._sources = {};
         this._layers = {};
-        this._map = new Map(this.setupOptions(config));
+        this._map = new Map(this.setupOptions(props));
     }
     /**
      * @description 地图初始化参数获取
      * @param options 地图初始化配置，后期可以改为后端接口获取，可以加额外参数传入map
      */
-    setupOptions(options: IOptions) {
-        const { STYLE, MAP_ID, CENTER, MAX_ZOOM, MIN_ZOOM } = options;
+    setupOptions(props: IOptions) {
+        const { container, style, center, maxZoom, minZoom, zoom } = props;
+        const { STYLE, MAP_ID, CENTER, MAX_ZOOM, MIN_ZOOM, ZOOM } = mapOptions;
         return {
-            container: MAP_ID,
-            style: STYLE,
-            center: CENTER,
-            maxZoom: MAX_ZOOM,
-            minZoom: MIN_ZOOM,
+            container: container || MAP_ID,
+            style: style || STYLE,
+            center: center || CENTER,
+            maxZoom: maxZoom || MAX_ZOOM,
+            minZoom: minZoom || MIN_ZOOM,
+            zoom: zoom || ZOOM,
         };
     }
     /**
@@ -263,3 +265,5 @@ export class map {
         return this._map.fitBounds(bounds);
     }
 }
+
+export default MapGL;
