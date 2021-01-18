@@ -7,29 +7,36 @@ import React, { useEffect, Component } from 'react';
 import MapGL from 'Src/map/map';
 import * as _ from 'lodash';
 import '../../map/Map.css';
+import { mapOptions } from '../../js/mapConfig';
+import HeatMapLayer from '../Layer/heatMapLayer';
 
 export default class Heatmap extends Component<any, any> {
     constructor(props) {
         super(props);
+        this.state = {
+            mapDefs: {},
+        };
     }
 
     componentDidMount() {
         try {
-            const mapOptions: any = {
-                container: 'map-container',
-                style: 'mapbox://styles/rocspread/cjepfva159qno2rqk8utkoodt',
-                center: [116.407387, 39.904179],
-                maxZoom: 18,
-                minZoom: 3,
-                zoom: 10,
-            };
-            const map = new MapGL(mapOptions);
+            const map = this.mapInit();
+            window['mapDefs'] = map; //挂载map
         } catch (error) {
             console.log(error);
         }
     }
 
+    mapInit() {
+        return new MapGL(mapOptions)._map;
+    }
+
     render() {
-        return <div className="map-container" id="map-container"></div>;
+        const { mapDefs } = this.state;
+        return (
+            <div className="map-container" id="map-container">
+                {mapDefs && <HeatMapLayer mapDefs={mapDefs} />}
+            </div>
+        );
     }
 }

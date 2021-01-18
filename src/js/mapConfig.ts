@@ -5,7 +5,7 @@ const accessToken = 'pk.eyJ1Ijoicm9jc3ByZWFkIiwiYSI6ImNqaHB5ZmNjOTRnajUzZG4zY3Ji
 /**
  * 默认中心点
  */
-const center: Array<number> = [116.407387, 39.904179];
+const center: Array<number> = [120.619585, 31.299379];
 
 /**
  * 默认地图最大缩放层级
